@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Main application
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    networks:
+      - spectre-network
+
+  # Optional: Redis for caching (future enhancement)
+  # redis:
+  #   image: redis:alpine
+  #   networks:
+  #     - spectre-network
+
+networks:
+  spectre-network:
+    driver: bridge
+
+volumes:
+  data:
+  logs:
